@@ -5,7 +5,7 @@ import Paginator from './components/Paginator'
 import JssProvider from 'react-jss/lib/JssProvider';
 import { create } from 'jss';
 import { createGenerateClassName, jssPreset } from '@material-ui/core/styles';
-import ScreenGrid from './containers/ScreenGrid'
+import CardScreen from './containers/CardScreen'
 
 const generateClassName = createGenerateClassName();
 const jss = create(jssPreset());
@@ -15,7 +15,7 @@ class App extends Component {
 
       <JssProvider jss={jss} generateClassName={generateClassName}>
       <div className="App">
-        <ScreenGrid />
+        <CardScreen />
         <Paginator />
       </div>
     </JssProvider>

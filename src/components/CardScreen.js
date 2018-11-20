@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from './card'
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types'
  const styles = {
   grid: {
     display: 'grid',
@@ -26,4 +27,26 @@ import { withStyles } from '@material-ui/core/styles';
     )
   }
 }
+
+class CardGrid extends React.Component {
+  render() {
+    const { classes, cards } = this.props;
+    return (
+      <div className={classes.grid}>
+        {cards.map((card, i) => { return <Card coreData={card.coreData} key={i} /> })}
+      </div>
+    )
+  }
+}
+ CardGrid.propTypes = {
+  cards: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired
+}
+CardScreen.propTypes = {
+  cards: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  pageCount: PropTypes.number.isRequired,
+  classes: PropTypes.object.isRequired
+}
+
  export default withStyles(styles)(CardScreen); 
