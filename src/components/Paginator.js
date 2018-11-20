@@ -11,23 +11,18 @@ class Paginator extends React.Component {
       this.props.changePage(this.props.viewer.currentPage + 1)
     }
      render() {
-      const { viewer, classes } = this.props
-      if (viewer.cardCount < 0) {
+        const { viewer, classes } = this.props
+        const display = viewer.pageCount < 1; //used to fade in controls
         return (
-          <div className={classes.container}>
-            <LinearProgress className={classes.linearProgress} color="primary"/>
+          <div className={classes.container} style={{ opacity: display ? 0 : 1 }}>
+            <Button onClick={this.onBackward} disabled={viewer.currentPage === 0}>Back</Button>
+            <span style={{ width: 300, display: 'inline-block' }}>
+              {`Page ${viewer.currentPage + 1} of ${viewer.pageCount}`}
+            </span>
+            <Button onClick={this.onForward} disabled={viewer.currentPage + 1 === viewer.pageCount}>Forward</Button>
           </div>
         )
-      }
-
-      return <div className={classes.container}>
-      <Button onClick={this.onForward} disabled={viewer.currentPage + 1 === viewer.pageCount}>Forward</Button>
-      <span style={{ width: 300, display: 'inline-block' }}>
-        {`Page ${viewer.currentPage + 1} of ${viewer.pageCount}`}
-      </span>
-      <Button onClick={this.onForward}>Forward</Button>
-    </div>
-  }
+     }
 } 
  const styles = {
   container: {
