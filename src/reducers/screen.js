@@ -11,12 +11,7 @@ const initialState = {
 const actionToHandler = {
   SET_TOTAL_COUNT: (state, action) => {
     const totalCount = action.totalCount;
-    return {
-      ...state,
-      totalCount: parseInt(totalCount, 10),
-      totalPage:
-        action.cardsCount !== 0 ? parseInt(totalCount / CARDS_PER_PAGE + 1, 10) : 0
-    };
+    return {...state, cardCount: action.cardsCount, pageCount: parseInt(action.cardsCount / 12 + 1, 10)}
   },
 
   // Set current page, 0 indexed

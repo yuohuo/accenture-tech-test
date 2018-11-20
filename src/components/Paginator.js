@@ -1,5 +1,8 @@
 import React from 'react'
 import Button from '@material-ui/core/Button';
+import {withStyles} from '@material-ui/core/styles'
+import { LinearProgress } from '@material-ui/core';
+
 class Paginator extends React.Component {
     onBackward = () => {
       this.props.changePage(this.props.viewer.currentPage - 1)
@@ -18,9 +21,9 @@ class Paginator extends React.Component {
       }
 
       return <div className={classes.container}>
-      <Button onClick={this.onBackward}>Back</Button>
+      <Button onClick={this.onForward} disabled={viewer.currentPage + 1 === viewer.pageCount}>Forward</Button>
       <span style={{ width: 300, display: 'inline-block' }}>
-        {`Page ${viewer.currentPage + 1} of ${parseInt(viewer.cardCount / 12, 10)}`}
+        {`Page ${viewer.currentPage + 1} of ${viewer.pageCount}`}
       </span>
       <Button onClick={this.onForward}>Forward</Button>
     </div>
@@ -37,4 +40,4 @@ class Paginator extends React.Component {
     flexGrow: 1
   }
 };
- export default withStyles(styles)(PaginationControls); 
+ export default withStyles(styles)(Paginator); 
