@@ -8,7 +8,9 @@ import { withStyles } from '@material-ui/core/styles';
   },
   container: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: 750,
+    marginTop: 64,
   }
 }
  class CardScreen extends React.Component {
