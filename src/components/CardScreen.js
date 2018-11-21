@@ -66,6 +66,7 @@ class CardScreen extends React.Component {
         {!error
           ?  <div className={classes.container + (loading ? " loading" : "")}> {/* toggle loading classname to fade out */}
           {loading && <CircularProgress size={50} />}
+          {/* when totalPage != -1, then render pages */}
           {[...Array(Math.max(totalPage, 0)).keys()].map(this.renderPage)}
         </div>   
           : <div className={classes.container}>error</div>  
