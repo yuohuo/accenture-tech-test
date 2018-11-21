@@ -15,7 +15,7 @@ const styles = {
   };
 
   /**
-   * 
+   * Display paginator which control forward and backward movement of pages
    * 
    */
 class Paginator extends React.Component {
