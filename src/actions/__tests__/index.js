@@ -142,11 +142,30 @@ describe('fetchCardsIfNeeded', () => {
     actions.fetchCardsIfNeeded(currentPageIndex)(dispatch, getState);
     expect(dispatch).toHaveBeenCalledTimes(1);
   })
-  it('should fetch next batch of pages if not first page', () => {
+  it('should fetch next batch of pages when not first page', () => {
     const currentPageIndex = 4
     const getState = () => ({ cards: [{ id: '1' }, { id: '2' }] });
     const dispatch = jest.fn();
     actions.fetchCardsIfNeeded(currentPageIndex)(dispatch, getState);
     expect(dispatch).toHaveBeenCalledTimes(1);
   })
-});
+})
+
+describe('changePage', () => {
+  it('should change page to 0 after initial start', () => {
+    const page = 0
+    // const getState = () => ({ cards: [] });
+    const dispatch = jest.fn();
+    actions.changePage(page)(dispatch);
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenCalledWith({page: 0, type: actions.Types.CHANGE_PAGE});
+  })
+  it('should change page to 4', () => {
+    const page = 4
+    // const getState = () => ({ cards: [] });
+    const dispatch = jest.fn();
+    actions.changePage(page)(dispatch);
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenCalledWith({page: 4, type: actions.Types.CHANGE_PAGE});
+  })
+})
