@@ -130,12 +130,16 @@ export const fetchCardsIfNeeded = (currentPageIndex) => (dispatch, getState) => 
 
     // fetch initial batch of pages
     if (shouldFetchCards(getState(), currentBlockStart)) {
-      dispatch(fetchCards(currentBlockStart));
-    }
+      // dispatch({
+      //   type: Types.FETCH_CARDS,
+      //   currentBlockStart,
+      // })
+      return dispatch(fetchCards(currentBlockStart));
+     }
     
-    // fetch next batch of pages if not first page
+    // fetch next batch of pages when not first page
     if (currentPageIndex !== 0 && shouldFetchCards(getState(), nextBlockStart)) {
-      dispatch(fetchCards(nextBlockStart));
+      return dispatch(fetchCards(nextBlockStart));
     } 
   }
 
@@ -176,7 +180,7 @@ export function setTotalCount(totalCount) {
 export function changePage(page) {
   return (
     dispatch => {
-      // console.log('Action CHANGE_PAGE started...............');
+      console.log('Action CHANGE_PAGE started...............');
       dispatch(fetchCardsIfNeeded(page));
       dispatch ({
         type: Types.CHANGE_PAGE,

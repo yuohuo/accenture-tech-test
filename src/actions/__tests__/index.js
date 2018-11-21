@@ -117,7 +117,7 @@ describe('shouldFetchCards', () => {
     expect(actions.shouldFetchCards(state, firstPageToFetch)).toEqual(expectedResult)
   });
 
-  it('should return true when page >=4 & card is empty', () => {
+  it('should return true when page >=4 & first card is empty', () => {
     const state = { cards: [{ id: '1' }, { id: '2' }] }
     const firstPageToFetch = 4
 
@@ -125,7 +125,7 @@ describe('shouldFetchCards', () => {
     expect(actions.shouldFetchCards(state, firstPageToFetch)).toEqual(expectedResult)
   });
 
-  it('should return true when page <4 & page != 0', () => {
+  it('should return true when page <4 & page != 0 & first card is empty', () => {
     const state = { cards: [] }
     const firstPageToFetch = 3
     const expectedResult = false
@@ -135,12 +135,18 @@ describe('shouldFetchCards', () => {
 })
 
 describe('fetchCardsIfNeeded', () => {
-  it('dispatch a doTheThing action', () => {
+  it('should fetch initial batch of pages', () => {
     const currentPageIndex = 0
     const getState = () => ({ cards: [] });
     const dispatch = jest.fn();
     actions.fetchCardsIfNeeded(currentPageIndex)(dispatch, getState);
-    expect(dispatch).toHaveBeenCalledWith({type: 'FETCH_CARDS', firstPageToFetch: currentPageIndex});
+    expect(dispatch).toHaveBeenCalledTimes(1);
   })
-  
+  it('should fetch next batch of pages if not first page', () => {
+    const currentPageIndex = 4
+    const getState = () => ({ cards: [{ id: '1' }, { id: '2' }] });
+    const dispatch = jest.fn();
+    actions.fetchCardsIfNeeded(currentPageIndex)(dispatch, getState);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+  })
 });
