@@ -48,7 +48,7 @@ class card extends React.Component {
           <Typography className={classes.title} color="textSecondary">
             {coreData.state}
           </Typography>
-          <Typography variant="headline" component="h2">
+          <Typography variant="h5" >
             {coreData.number}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
@@ -57,7 +57,7 @@ class card extends React.Component {
             Assignee: {coreData.assignee}
           </Typography>
           <Typography component="p">
-            <Truncate lines={2}>{coreData.shortDescription}</Truncate>
+            <Truncate lines={2}>{coreData.shortDescription} <br/> <br/></Truncate>
           </Typography>
         </CardContent>
         <CardActions>
