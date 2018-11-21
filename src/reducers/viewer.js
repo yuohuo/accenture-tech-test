@@ -9,9 +9,15 @@ const initialState = {
 };
 
 const actionToHandler = {
+  // Set totalCount and calculate totalPage
   SET_TOTAL_COUNT: (state, action) => {
     const totalCount = action.totalCount;
-    return {...state, cardCount: action.cardsCount, pageCount: parseInt(action.cardsCount / 12 + 1, 10)}
+    return {
+      ...state,
+      totalCount: parseInt(totalCount, 10),
+      totalPage:
+      totalCount !== 0 ? parseInt(totalCount / CARDS_PER_PAGE, 10) : 0
+    };
   },
 
   // Set current page, 0 indexed
@@ -19,15 +25,17 @@ const actionToHandler = {
     return { ...state, currentPage: action.page };
   },
 
-  // Set selected card, value is the card's data object
+  // Set toggled card, return card object
   TOGGLE_CARD: (state, action) => {
     return { ...state, selectedCard: action.card };
   },
 
+  // handle request failure
   REQUEST_CARDS_FAILURE: (state) => {
     return {...state, error: true}
   },
 
+  // handle request status reset
   REQUEST_STATUS_RESET: (state) => {
     return {...state, error: false}
   }
@@ -35,7 +43,7 @@ const actionToHandler = {
 
 const CardScreen = (state = initialState, action) => {
   const handler = actionToHandler[action.type];
-  return handler ? handler(state, action) : state; 
+  return handler ? handler(state, action) : state;
 };
 
 export default CardScreen;
