@@ -54,10 +54,9 @@ export function requestCardsSuccess(page, json) {
  * @param {boolean} error
  * @returns object
  */
-export function requestCardsFailure(error) {
+export function requestCardsFailure() {
   return {
     type: Types.REQUEST_CARDS_FAILURE,
-    error
   }
 }
  
@@ -83,7 +82,7 @@ export function fetchCards(firstPageToFetch) {
       })
       .then(
         response => {
-        if (!response.ok) throw (response);
+        // if (!response.ok) throw (response);
         // console.log(response);
         const totalCount = response.headers.get('X-Total-Count');
         dispatch(setTotalCount(totalCount))
@@ -97,7 +96,7 @@ export function fetchCards(firstPageToFetch) {
       })
       .catch(error => {
         console.log('An error occurred', error)
-        dispatch(requestCardsFailure(error))
+        dispatch(requestCardsFailure())
       })
   }
 }
@@ -109,8 +108,10 @@ export function fetchCards(firstPageToFetch) {
  * @param {number} firstPageToFetch first page of block to be fetched (0 indexed)
  * @returns
  */
-function shouldFetchCards(state, firstPageToFetch) {
+export function shouldFetchCards(state, firstPageToFetch) {
   return (
+    // when page=0 or page>=PAGES_PER_BATCH, and the first card of this page is empty, 
+    // then return true
     (firstPageToFetch === 0 || firstPageToFetch / PAGES_PER_BATCH >= 1) &&
     !state.cards[firstPageToFetch * CARDS_PER_PAGE]
   );
@@ -123,20 +124,21 @@ function shouldFetchCards(state, firstPageToFetch) {
  * @param {number} currentPageIndex current page number (0 indexed)
  * @returns
  */
-export function fetchCardsIfNeeded(currentPageIndex) {
-  return (dispatch, getState) => {
+export const fetchCardsIfNeeded = (currentPageIndex) => (dispatch, getState) => {
     const currentBlockStart = currentPageIndex - currentPageIndex % PAGES_PER_BATCH;
     const nextBlockStart = currentBlockStart + PAGES_PER_BATCH;
 
     // fetch initial batch of pages
-    shouldFetchCards(getState(), currentBlockStart) &&
+    if (shouldFetchCards(getState(), currentBlockStart)) {
       dispatch(fetchCards(currentBlockStart));
-
+    }
+    
     // fetch next batch of pages if not first page
-    (currentPageIndex !== 0 && shouldFetchCards(getState(), nextBlockStart)) &&
+    if (currentPageIndex !== 0 && shouldFetchCards(getState(), nextBlockStart)) {
       dispatch(fetchCards(nextBlockStart));
+    } 
   }
-}
+
 
 /**
  * handle request status reset

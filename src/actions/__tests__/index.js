@@ -2,27 +2,51 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
 import * as actions from '../index';
+import { ENDPOINT_URL, PAGES_PER_BATCH, CARDS_PER_BATCH } from '../../constants'
+
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
-describe('async actions', () => {
+describe('fetchCards async actions', () => {
+
+  const firstPageToFetch = 5
+  const params = `${ENDPOINT_URL}&page=${parseInt(firstPageToFetch / PAGES_PER_BATCH, 10)}&perPage=${CARDS_PER_BATCH}`
+
   afterEach(() => {
     fetchMock.restore()
   })
-  it('creates FETCH_TODOS_SUCCESS when fetching todos has been done', () => {
-    fetchMock.getOnce('/cards', {
-      body: { cards: [{id: '1'}, {id: '2'}] },
-      headers: { 'content-type': 'application/json',
-      'Accept': 'application/json',
-      'apiToken': 'apiToken'}
+  it('creates SET_TOTAL_COUNT, REQUEST_CARDS, REQUEST_CARDS_SUCCESS, REQUEST_STATUS_RESET when fetching cards has been done', () => {
+    fetchMock.getOnce(params, {
+      body: { cards: [{ id: '1' }, { id: '2' }] },
+      headers: {
+        'content-type': 'application/json',
+        'X-Total-Count': '100',
+      }
     })
     const expectedActions = [
-      { type: actions.Types.REQUEST_CARDS, page: 1, totalCount: 100},
-      { type: actions.Types.REQUEST_CARDS_SUCCESS, page: 1, cards: [{id: '1'}, {id: '2'}] }
+      { type: actions.Types.SET_TOTAL_COUNT, totalCount: "100" },
+      { type: actions.Types.REQUEST_CARDS, page: 5, totalCount: "100" },
+      { type: actions.Types.REQUEST_STATUS_RESET },
+      { type: actions.Types.REQUEST_CARDS_SUCCESS, page: 5, cards: { cards: [{ id: '1' }, { id: '2' }] } }
     ]
     const store = mockStore({ cards: [] })
-    return store.dispatch(actions.fetchCards()).then(() => {
+    return store.dispatch(actions.fetchCards(5)).then(() => {
+      // return of async actions
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
+
+  it('creates SET_TOTAL_COUNT, REQUEST_CARDS, REQUEST_CARDS_FAILURE, REQUEST_STATUS_RESET when fetching cards has been failed', () => {
+    fetchMock.getOnce(params, 404)
+    const expectedActions = [
+      { type: actions.Types.SET_TOTAL_COUNT, totalCount: null },
+      { type: actions.Types.REQUEST_CARDS, page: 5, totalCount: null },
+      { type: actions.Types.REQUEST_STATUS_RESET },
+      { type: actions.Types.REQUEST_CARDS_FAILURE }
+    ]
+    const store = mockStore({ cards: [] })
+    return store.dispatch(actions.fetchCards(5)).then(() => {
       // return of async actions
       expect(store.getActions()).toEqual(expectedActions)
     })
@@ -40,7 +64,7 @@ describe('actions', () => {
   });
 
   it('should create REQUEST_CARDS_SUCCESS action', () => {
-    const cards = [{id: '1'}, {id: '2'}]
+    const cards = [{ id: '1' }, { id: '2' }]
     const expectedAction = {
       type: actions.Types.REQUEST_CARDS_SUCCESS,
       page: 1,
@@ -50,12 +74,10 @@ describe('actions', () => {
   })
 
   it('should create REQUEST_CARDS_FAILURE action', () => {
-    const error = true
     const expectedAction = {
       type: actions.Types.REQUEST_CARDS_FAILURE,
-      error,
     }
-    expect(actions.requestCardsFailure(error)).toEqual(expectedAction)
+    expect(actions.requestCardsFailure()).toEqual(expectedAction)
   });
 
   it('should create REQUEST_STATUS_RESET action', () => {
@@ -85,3 +107,40 @@ describe('actions', () => {
 
 });
 
+describe('shouldFetchCards', () => {
+
+  it('should return true when initial fetching', () => {
+    const state = { cards: [] }
+    const firstPageToFetch = 0
+
+    const expectedResult = true
+    expect(actions.shouldFetchCards(state, firstPageToFetch)).toEqual(expectedResult)
+  });
+
+  it('should return true when page >=4 & card is empty', () => {
+    const state = { cards: [{ id: '1' }, { id: '2' }] }
+    const firstPageToFetch = 4
+
+    const expectedResult = true
+    expect(actions.shouldFetchCards(state, firstPageToFetch)).toEqual(expectedResult)
+  });
+
+  it('should return true when page <4 & page != 0', () => {
+    const state = { cards: [] }
+    const firstPageToFetch = 3
+    const expectedResult = false
+    expect(actions.shouldFetchCards(state, firstPageToFetch)).toEqual(expectedResult)
+  });
+
+})
+
+describe('fetchCardsIfNeeded', () => {
+  it('dispatch a doTheThing action', () => {
+    const currentPageIndex = 0
+    const getState = () => ({ cards: [] });
+    const dispatch = jest.fn();
+    actions.fetchCardsIfNeeded(currentPageIndex)(dispatch, getState);
+    expect(dispatch).toHaveBeenCalledWith({type: 'FETCH_CARDS', firstPageToFetch: currentPageIndex});
+  })
+  
+});
