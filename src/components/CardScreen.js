@@ -31,7 +31,7 @@ const viewerStyles = {
 /**
  * 
  */
-class CardScreen extends React.Component {
+class CardScreen extends React.PureComponent {
   componentDidMount() {
     this.props.changePage(0);
   }
@@ -53,9 +53,9 @@ class CardScreen extends React.Component {
     } else return null;
   };
 
-  update(nextProps, nextState) {
-    return true;
-  }
+  // update(nextProps, nextState) {
+  //   return true;
+  // }
 
   render() {
     const { classes, cards, totalPage, error } = this.props;

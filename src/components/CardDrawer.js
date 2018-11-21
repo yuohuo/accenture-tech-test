@@ -10,11 +10,6 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
 
-/**
- * Component to render the drawer to display card detail info
- * 
- */
-
 const styles = {
     list: {
       width: 640,
@@ -42,7 +37,12 @@ const styles = {
       }
     }
   };
-class CardDrawer extends React.Component {
+
+  /**
+ * Component to render the drawer to display card detail info
+ * 
+ */
+class CardDrawer extends React.PureComponent {
   close = () => {
     this.props.toggleCard(null);
   };
