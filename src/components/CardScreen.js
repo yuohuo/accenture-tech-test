@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from './Card';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import StyledCardGrid from './CardGrid';
 import debounceRender from 'react-debounce-render';
 import { CARDS_PER_PAGE } from '../constants';
@@ -64,7 +62,8 @@ class CardScreen extends React.PureComponent {
     return (
       <div> 
         {!error
-          ?  <div className={classes.container + (loading ? " loading" : "")}> {/* toggle loading classname to fade out */}
+          // toggle loading classname to fade out
+          ?  <div className={classes.container + (loading ? " loading" : "")}>
           {loading && <CircularProgress size={50} />}
           {/* when totalPage != -1, then render pages */}
           {[...Array(Math.max(totalPage, 0)).keys()].map(this.renderPage)}

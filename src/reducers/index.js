@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 import cards from './cards'
-import screen from './screen'
+import viewer from './viewer'
 
 export default combineReducers({
     cards,
-    screen
+    viewer
 })
