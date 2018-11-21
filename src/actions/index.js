@@ -67,13 +67,12 @@ export function requestCardsFailure(error) {
  * @param {number} firstPageToFetch first page's index that app will fetch
  * @returns {object} 
  */
-function fetchCards(firstPageToFetch) {
+export function fetchCards(firstPageToFetch) {
   
   return (dispatch, getState) => {
 
-    const totalCount = getState().viewer.totalCount;
-    dispatch(requestCards(firstPageToFetch, totalCount));  //
-    dispatch(requestStatusReset())
+    // const totalCount = getState().viewer.totalCount;
+    
     const params = `${ENDPOINT_URL}&page=${parseInt(firstPageToFetch / PAGES_PER_BATCH, 10)}&perPage=${CARDS_PER_BATCH}`
 
     return fetch(
@@ -88,6 +87,8 @@ function fetchCards(firstPageToFetch) {
         // console.log(response);
         const totalCount = response.headers.get('X-Total-Count');
         dispatch(setTotalCount(totalCount))
+        dispatch(requestCards(firstPageToFetch, totalCount));  //
+        dispatch(requestStatusReset())
         return response.json();
         }
       )

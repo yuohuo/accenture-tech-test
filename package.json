@@ -31,5 +31,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "fetch-mock": "^7.2.5",
+    "redux-mock-store": "^1.5.3"
+  }
 }
