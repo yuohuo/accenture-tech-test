@@ -20,5 +20,8 @@ describe('CardScreenContainer', () => {
 
         mapDispatchToProps(dispatch).toggleCard();
         expect(dispatch.mock.calls[0][0]).toEqual({ type: 'TOGGLE_CARD'});
+
+        mapDispatchToProps(dispatch).changePage();
+        expect(dispatch).toHaveBeenCalledTimes(2);
     });
 });
