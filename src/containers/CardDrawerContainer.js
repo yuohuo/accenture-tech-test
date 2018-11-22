@@ -3,11 +3,11 @@ import CardDrawer from '../components/CardDrawer'
 import { toggleCard } from '../actions'
 
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     return { card: state.viewer.selectedCard };
 }
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
     toggleCard: (card) => dispatch(toggleCard(card))
   })
 

@@ -1,5 +1,13 @@
 import { connect } from 'react-redux'
-import { changePage } from '../actions'
 import Paginator from '../components/Paginator'
+import { changePage } from '../actions'
 
-export default connect(state => {return {viewer: state.viewer}}, {changePage})(Paginator);
+export const mapStateToProps = (state) => {
+    return {viewer: state.viewer};
+}
+
+export const mapDispatchToProps = (dispatch) => ({
+    changePage: (page) => dispatch(changePage(page))
+  })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Paginator);

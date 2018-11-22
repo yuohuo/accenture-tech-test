@@ -56,7 +56,7 @@ class CardDrawer extends React.PureComponent {
       <IconButton
         color="primary"
         className={classes.button}
-        aria-label="Add to shopping cart"
+        aria-label="card drawer"
         onClick={this.close}
       >
         <CloseIcon />

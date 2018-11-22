@@ -3,12 +3,12 @@ import CardScreen from '../components/CardScreen'
 import { changePage, toggleCard } from '../actions'
 
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     const {currentPage, totalPage} = state.viewer
     return {cards: state.cards, totalPage, currentPage};
 }
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
     changePage: (page) => dispatch(changePage(page)),
     toggleCard: (card) => dispatch(toggleCard(card))
   })
