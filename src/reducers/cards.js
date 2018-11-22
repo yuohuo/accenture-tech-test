@@ -7,8 +7,8 @@ const actionToHandler = {
   // Set requested cards to fetching state
   REQUEST_CARDS: (state, action) => {
     let newState = state.slice();
-    const { totalCount } = action;
-    const firstCardIndex = action.page * CARDS_PER_PAGE;
+    const { totalCount, page } = action;
+    const firstCardIndex = page * CARDS_PER_PAGE;
     // edge case: last batch
     const lastCardIndex = Math.min(firstCardIndex + CARDS_PER_BATCH, totalCount - 1); 
     const numOfCards = lastCardIndex - firstCardIndex;
