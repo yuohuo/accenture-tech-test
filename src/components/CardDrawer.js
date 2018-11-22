@@ -50,7 +50,7 @@ class CardDrawer extends React.PureComponent {
   // render drawer header
   renderHeader = (classes = this.props.classes, card = this.props.card) => (
     <div className={classes.header}>
-      <Typography variant="headline" component="h1">
+      <Typography variant="h5" component="h1">
         {card.coreData.number}
       </Typography>
       <IconButton
