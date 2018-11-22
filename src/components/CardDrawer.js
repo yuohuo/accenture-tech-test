@@ -11,83 +11,75 @@ import CloseIcon from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
-    list: {
-      width: 640,
-      "& > li": {
-        display: "flex",
-        "& > div:first-child": {
-          maxWidth: "25%"
-        },
-        "& > div:last-child": {
-          flex: 1
-        }
-      }
-    },
-    header: {
-      height: 64,
-      padding: "4px 16px",
+  list: {
+    width: 640,
+    "& > li": {
       display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      "& h1": {
-        fontSize: 32
+      "& > div:first-child": {
+        maxWidth: "25%"
       },
-      "& > button": {
-        marginRight: -8
+      "& > div:last-child": {
+        flex: 1
       }
     }
-  };
+  },
+  header: {
+    height: 64,
+    padding: "4px 16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    "& h1": {
+      fontSize: 32
+    },
+    "& > button": {
+      marginRight: -8
+    }
+  }
+};
 
-  /**
- * Component to render the drawer to display card detail info
- * 
- */
+/**
+* Component to render the drawer to display card detail info
+* 
+*/
 class CardDrawer extends React.PureComponent {
   close = () => {
     this.props.toggleCard(null);
   };
 
   // render drawer header
-  renderHeader() {
-    const { classes, card } = this.props;
-    return (
-      <div className={classes.header}>
-        <Typography variant="headline" component="h1">
-          {card.coreData.number}
-        </Typography>
-        <IconButton
-          color="primary"
-          className={classes.button}
-          aria-label="Add to shopping cart"
-          onClick={this.close}
-        >
-          <CloseIcon />
-        </IconButton>
-      </div>
-    );
-  }
+  renderHeader = (classes = this.props.classes, card = this.props.card) => (
+    <div className={classes.header}>
+      <Typography variant="headline" component="h1">
+        {card.coreData.number}
+      </Typography>
+      <IconButton
+        color="primary"
+        className={classes.button}
+        aria-label="Add to shopping cart"
+        onClick={this.close}
+      >
+        <CloseIcon />
+      </IconButton>
+    </div>
+  )
 
   // render one list item
-  renderListItem(text, value) {
+  renderListItem = (text, value) => (
+    <ListItem>
+      <ListItemText primary={text} />
+      <Input value={value} inputProps={{ "aria-label": text }} />
+    </ListItem>
+  )
+
+  renderServiceData = (serviceData = this.props.card.serviceData) => (Object.keys(serviceData).map((key, i) => {
     return (
-      <ListItem>
-        <ListItemText primary={text} />
-        <Input value={value} inputProps={{ "aria-label": text }} />
+      <ListItem key={i}>
+        <ListItemText primary={key} />
+        <Input value={serviceData[key]} inputProps={{ "aria-label": key }} />
       </ListItem>
     );
-  }
-
-  renderServiceData() {
-    const serviceData = this.props.card.serviceData;
-    return Object.keys(serviceData).map((key, i) => {
-      return (
-        <ListItem key={i}>
-          <ListItemText primary={key} />
-          <Input value={serviceData[key]} inputProps={{ "aria-label": key }} />
-        </ListItem>
-      );
-    });
-  }
+  }))
 
   render() {
     const { card, classes } = this.props;
