@@ -25,6 +25,10 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.<br>
 
+### `$ npm test -- --coverage`
+
+Launches the test runner with coverage report.<br>
+
 ### `$ npm run build`
 
 Builds the app for production to the `build` folder.<br>
@@ -47,3 +51,17 @@ In the build folder, use this command to run docker image.
 - Redux
 - Redux Thunk
 - Enzyme + Jest
+
+## UI implementation
+
+![Diagram of cache block](./doc/demo.gif)
+
+## Data fetch and cache logic
+
+![Diagram of cache block](./doc/data_cache_logic_chart.png)
+
+
+
+![Diagram of cache blocks](./doc/data_fetch_logic_chart.png)
+
+App will cache 4 pages of card by default, and this param can be modified through constant PAGES_PER_BATCH in `/scr/constants` folder. 
