@@ -52,16 +52,44 @@ In the build folder, use this command to run docker image.
 - Redux Thunk
 - Enzyme + Jest
 
-## UI implementation
+## Project demonstration
 
 ![Diagram of cache block](./doc/demo.gif)
 
+- **UX and Perceived Performance**  
+    - Make this card grid user interface conform to user's mental model and visceral reaction, by using proper animation and indicator.
+    - Take perceived performance in count, by giving instant feedback and gradual progression.
+
+- **Data Cache**  
+App store cache card in batch before user approaching the end of cache. When the user switches between pages, the update will be instant, and cached data won't need to refetch.
+
+
+- **Debounce**  
+Utilise Debounce to improves App performance by limiting the number of DOM updates, and avoid API request flood server.
+
+- **Multi-stage Dockerizing**  
+Multi-stage dockerizing make smooth production deploys.
+
+
+
 ## Data fetch and cache logic
 
+### Flowchart of cache logic 
 ![Diagram of cache block](./doc/data_cache_logic_chart.png)
 
+When user approaching the end of cache ( in the last batch of cached pages ) or user just started app, the caching mechanism will start to work. App caches a batch of pages in one time ( 4 pages by default, and this param can be modified through constant PAGES_PER_BATCH in `/scr/constants` folder ). 
 
-
+### Flowchart of fetching logic 
 ![Diagram of cache blocks](./doc/data_fetch_logic_chart.png)
 
-App will cache 4 pages of card by default, and this param can be modified through constant PAGES_PER_BATCH in `/scr/constants` folder. 
+ ## Time consumed
+
+ about 4 working days, which is around 32 hour.
+
+## If I have more time
+
+- More expandable and normalised Redux data structure.
+
+- API handler level debounce middleware that  merge and reduce HTTP requests.
+
+- Skeleton screen for better perceive experience.
