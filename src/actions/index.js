@@ -67,11 +67,11 @@ export function requestCardsFailure() {
  * @returns {object} 
  */
 export function fetchCards(firstPageToFetch) {
-  
+
   return (dispatch, getState) => {
 
     // const totalCount = getState().viewer.totalCount;
-    
+
     const params = `${ENDPOINT_URL}&page=${parseInt(firstPageToFetch / PAGES_PER_BATCH, 10)}&perPage=${CARDS_PER_BATCH}`
 
     return fetch(
@@ -81,14 +81,18 @@ export function fetchCards(firstPageToFetch) {
         headers: { apiToken: API_TOKEN }
       })
       .then(
-        response => {
-        // if (!response.ok) throw (response);
-        // console.log(response);
-        const totalCount = response.headers.get('X-Total-Count');
-        dispatch(setTotalCount(totalCount))
-        dispatch(requestCards(firstPageToFetch, totalCount));  //
-        dispatch(requestStatusReset())
-        return response.json();
+        function (response) {
+
+          if (response.status >= 200 && response.status < 300) {
+            const totalCount = response.headers.get('X-Total-Count');
+            dispatch(setTotalCount(totalCount))
+            dispatch(requestCards(firstPageToFetch, totalCount));  //
+            dispatch(requestStatusReset())
+            return response.json();
+          }
+          const error = new Error(response.statusText);
+          error.response = response;
+          throw error;
         }
       )
       .then(json => {

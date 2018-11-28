@@ -29,9 +29,10 @@ const viewerStyles = {
 /**
  * 
  */
-class CardScreen extends React.PureComponent {
+class CardScreen extends React.Component {
   componentDidMount() {
     this.props.changePage(0);
+    console.log("+++++++++++++++++++++++++++++++++++++++++++");
   }
 
   renderPage = page => {

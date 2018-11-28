@@ -17,7 +17,7 @@ import { withStyles } from "@material-ui/core/styles";
 // - toggleCard: action creator to set selected card
 // - classes: JSS styles
 // ============================================================================
-class card extends React.Component {
+class card extends React.PureComponent {
   state = { raised: false };
   onButtonClick = () => {
     this.props.toggleCard(this.props.cardData);
