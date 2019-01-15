@@ -26,6 +26,25 @@ const viewerStyles = {
   },
 };
 
+// class RenderPage extends React.PureComponent {
+//   render() {
+
+//       const { page, cards, currentPage, toggleCard } = this.props;
+//     if (Math.abs(currentPage - page) <= 1) {
+//       return (
+//         <StyledCardGrid
+//           key={page}
+//           cards={cards.slice(
+//             page * CARDS_PER_PAGE,
+//             (page + 1) * CARDS_PER_PAGE,
+//           )}
+//           offset={page - currentPage}
+//           toggleCard={toggleCard}
+//         />
+//       );
+//     } else return null;
+//   }
+// }
 /**
  * 
  */
@@ -57,7 +76,7 @@ class CardScreen extends React.Component {
   // }
 
   render() {
-    const { classes, cards, totalPage, error } = this.props;
+    const { classes, cards, totalPage, error, currentPage, toggleCard } = this.props;
     const loading = totalPage === -1 || !cards.length;
 
     return (
@@ -67,6 +86,7 @@ class CardScreen extends React.Component {
           ?  <div className={classes.container + (loading ? " loading" : "")}>
           {loading && <CircularProgress size={50} />}
           {/* when totalPage != -1, then render pages */}
+          {/* {[...Array(Math.max(totalPage, 0)).keys()].map((page) => <RenderPage key={page} page={page} cards={cards} currentPage={currentPage} toggleCard={toggleCard}/>)} */}
           {[...Array(Math.max(totalPage, 0)).keys()].map(this.renderPage)}
         </div>   
           : <div className={classes.container}>error</div>  

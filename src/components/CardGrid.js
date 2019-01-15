@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 /**
  * 
  */
-class CardGrid extends React.PureComponent {
+class CardGrid extends React.Component {
     render() {
       const { classes, cards, offset, toggleCard } = this.props;
       return (
